@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour {
 
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private Vector2 moveDirection;
-    private void FixedUpdate() {
+    private void Update() {
         rigidBody2D.linearVelocity = moveDirection * moveSpeed;
     }
     public void Move(InputAction.CallbackContext context) {
