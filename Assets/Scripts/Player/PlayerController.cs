@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask interactiveLayer;
     private bool canInteract = false;
 
-    [SerializeField] private TextMeshProUGUI interactionCounterText;
     private int interactionCount = 0;
     private string interactionText;
 
@@ -31,7 +30,6 @@ public class PlayerController : MonoBehaviour
         if (context.started && canInteract)
         {
             interactionCount++;
-            interactionCounterText.text = $"Interagiu {interactionCount} vezes!";
         }
     }
     private void OnTriggerEnter2D(Collider2D collision2D)
@@ -40,17 +38,13 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Entrou na range!");
             canInteract = !canInteract;
-            interactionCounterText.color = Color.green;
             interactionText = $"Entrou na range!";
-            interactionCounterText.text = interactionText;
         }
     }
     private void OnTriggerExit2D(Collider2D collision2D)
     {
         Debug.Log("Saiu na range!");
         canInteract = !canInteract;
-        interactionCounterText.color = Color.red;
         interactionText = $"Está longe da range!"; ;
-        interactionCounterText.text = interactionText;
     }
 }
