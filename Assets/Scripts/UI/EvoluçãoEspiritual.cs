@@ -1,7 +1,6 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EvoluçãoEspiritual : MonoBehaviour {
     public static EvoluçãoEspiritual Instance { get; private set; }
@@ -48,5 +47,18 @@ public class EvoluçãoEspiritual : MonoBehaviour {
         }
         atualEvolucao++;
         evolucoes[atualEvolucao].GetComponent<Image>().color = cores[atualEvolucao];
+    }
+
+    public void OnDecrease()
+    {
+        if (atualEvolucao <= 0) //Caso o numero este abaixo
+        {
+            Debug.Log("Evolução minima alcançada.");
+            SceneManager.LoadScene(1);
+            return;
+        }
+        evolucoes[atualEvolucao].GetComponent<Image>().color = Color.white;
+        atualEvolucao--;
+        Debug.Log($"Evoluindo para a próxima fase: {atualEvolucao - 1}");
     }
 }

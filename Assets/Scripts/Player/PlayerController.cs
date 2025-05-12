@@ -13,14 +13,27 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask interactiveLayer;
     private bool canInteract = false;
 
-    [SerializeField] private TextMeshProUGUI interactionCounterText;
+    [SerializeField] SpriteRenderer spriteRenderer;
     private int interactionCount = 0;
     private string interactionText;
 
+    private void Update()
+    {
+        if(rigidBody2D.linearVelocityX < 0f)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if (rigidBody2D.linearVelocityX > 0f) 
+        {
+        
+            spriteRenderer.flipX = false;
+        }
+    }
     private void FixedUpdate()
     {
         Vector2 targetVelocity = moveDirection * moveSpeed;
         rigidBody2D.linearVelocity = Vector2.SmoothDamp(rigidBody2D.linearVelocity, targetVelocity, ref currentVelocity, 0.05f);
+        
     }
     public void Move(InputAction.CallbackContext context)
     {
@@ -31,7 +44,7 @@ public class PlayerController : MonoBehaviour
         if (context.started && canInteract)
         {
             interactionCount++;
-            interactionCounterText.text = $"Interagiu {interactionCount} vezes!";
+            EvoluçãoEspiritual.Instance.OnUpgrade();
         }
     }
     private void OnTriggerEnter2D(Collider2D collision2D)
@@ -40,17 +53,19 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Entrou na range!");
             canInteract = !canInteract;
-            interactionCounterText.color = Color.green;
             interactionText = $"Entrou na range!";
-            interactionCounterText.text = interactionText;
+        }
+
+        if (collision2D.CompareTag("Enemy"))
+        {
+            Debug.Log("Entrou em contado");
+            EvoluçãoEspiritual.Instance.OnDecrease();
         }
     }
     private void OnTriggerExit2D(Collider2D collision2D)
     {
         Debug.Log("Saiu na range!");
         canInteract = !canInteract;
-        interactionCounterText.color = Color.red;
         interactionText = $"Está longe da range!"; ;
-        interactionCounterText.text = interactionText;
     }
 }
