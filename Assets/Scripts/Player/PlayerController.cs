@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,9 +14,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask interactiveLayer;
     private bool canInteract = false;
 
+    [Header("Mensagens settings")]
     [SerializeField] private TextMeshProUGUI interactionCounterText;
     private int interactionCount = 0;
-    private string interactionText;
+    private string interactionText; // Aviso prar interagir com a caixa
+
+    [Header("Spirit Evolution")]
+    [SerializeField] Slider EvolutionBar;
+    [SerializeField] float Point = 0.1f;
+    private float CurrentValue;
 
     private void FixedUpdate()
     {
@@ -32,6 +39,13 @@ public class PlayerController : MonoBehaviour
         {
             interactionCount++;
             interactionCounterText.text = $"Interagiu {interactionCount} vezes!";
+
+            CurrentValue += Point;
+            EvolutionBar.value = CurrentValue; 
+            if(CurrentValue >= 1.0f)
+            {
+                interactionCounterText.text = $"Parabéns, você ganhou!!";
+            }
         }
     }
     private void OnTriggerEnter2D(Collider2D collision2D)
